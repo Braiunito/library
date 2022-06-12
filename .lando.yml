@@ -1,0 +1,20 @@
+name: library
+recipe: lamp
+config:
+  webroot: ./public
+services:
+  appserver:
+    type: php:7.4
+  database:
+    portforward: 5001
+  node_internal:
+    type: node:13
+tooling:
+  npm:
+    service: node_internal
+    description: with this command you are able to run npm commands internaly into the docker container
+    cmd: bash /app/.scripts/npm_manager.sh
+  mysql:
+    service: database
+    dsecription: fast connection to the db
+    cmd: mysql -u root -h 127.0.0.1 -P 3306 lamp

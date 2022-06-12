@@ -1,0 +1,64 @@
+DROP DATABASE lamp;
+CREATE DATABASE lamp;
+USE lamp;
+Create table MEMBERS
+(
+	MEMBER_ID Varchar(10),
+	MEMBER_NAME Varchar(30) NOT NULL,
+	CITY Varchar(20),
+	DATE_REGISTER Date NOT NULL,
+	DATE_EXPIRE Date ,
+	MEMBERSHIP_STATUS Varchar(15)NOT NULL,
+	Constraint cts1 PRIMARY KEY(MEMBER_ID)
+);
+
+Create table SUPPLIERS_DETAILS
+(
+	SUPPLIER_ID Varchar(3),
+	SUPPLIER_NAME Varchar(30) NOT NULL,
+	ADDRESS	Varchar(50),
+	CONTACT bigint(10) NOT NULL,
+	EMAIL Varchar(15) NOT NULL,
+	Constraint cts2 PRIMARY KEY(SUPPLIER_ID)
+);
+
+Create table FINE_DETAILS
+(
+	FINE_RANGE Varchar(3),
+	FINE_AMOUNT decimal(10,2) NOT NULL,
+	Constraint cts3 PRIMARY KEY(FINE_RANGE)
+);
+
+
+Create table BOOK_DETAILS
+(
+	BOOK_CODE Varchar(10),	
+	BOOK_TITLE Varchar(50) NOT NULL,
+	CATEGORY Varchar(15) NOT NULL,
+	AUTHOR Varchar(30) NOT NULL,
+	PUBLICATION Varchar(30),
+	PUBLISH_DATE Date,
+	BOOK_EDITION int(2),
+	PRICE decimal(8,2) NOT NULL,	
+	RACK_NUM Varchar(3),
+	DATE_ARRIVAL Date NOT NULL, 		
+	SUPPLIER_ID Varchar(3) NOT NULL,
+	Constraint cts4 PRIMARY KEY(BOOK_CODE), 
+        Constraint cts41 FOREIGN KEY(SUPPLIER_ID) References SUPPLIERS_DETAILS(SUPPLIER_ID)
+);
+
+
+Create table BOOK_ISSUE
+(
+	BOOK_ISSUE_NO int,
+	MEMBER_ID Varchar(10) NOT NULL,
+	BOOK_CODE Varchar(10) NOT NULL,
+	DATE_ISSUE Date NOT NULL,
+	DATE_RETURN Date NOT NULL,
+        DATE_RETURNED Date NULL,
+	FINE_RANGE Varchar(3),
+	Constraint cts5 PRIMARY KEY(BOOK_ISSUE_NO),
+        Constraint Mem FOREIGN KEY(MEMBER_ID) References MEMBERS(MEMBER_ID),
+        Constraint BookDetail FOREIGN KEY(BOOK_CODE) References BOOK_DETAILS(BOOK_CODE),
+	Constraint FineDetail FOREIGN KEY(FINE_RANGE) References FINE_DETAILS(FINE_RANGE)
+);
